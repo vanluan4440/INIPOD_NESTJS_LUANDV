@@ -1,0 +1,53 @@
+### Test Authentication API
+
+### 1. Sign Up
+POST http://localhost:3000/auth/sign-up
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123",
+  "name": "Test User",
+  "avatar": "https://example.com/avatar.jpg"
+}
+
+###
+
+### 2. Sign In
+POST http://localhost:3000/auth/sign-in
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+###
+
+### 3. Get Profile (Replace <token> with actual JWT token)
+GET http://localhost:3000/auth/me
+Authorization: Bearer <token>
+
+###
+
+### 4. Test with wrong password
+POST http://localhost:3000/auth/sign-in
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "wrongpassword"
+}
+
+###
+
+### 5. Test with non-existent email
+POST http://localhost:3000/auth/sign-in
+Content-Type: application/json
+
+{
+  "email": "nonexistent@example.com",
+  "password": "password123"
+}
+
+### 
