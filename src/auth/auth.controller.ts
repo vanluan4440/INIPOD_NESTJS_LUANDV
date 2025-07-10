@@ -10,12 +10,12 @@ import { CurrentUser } from './decorators/current-user.decorator';
 export class AuthController {
     constructor(private readonly authService: AuthService) { }
 
-    @Post('sign-up')
+    @Post('register')
     async signUp(@Body() signUpDto: SignUpDto): Promise<AuthResponseDto> {
         return this.authService.signUp(signUpDto);
     }
 
-    @Post('sign-in')
+    @Post('login')
     @HttpCode(HttpStatus.OK)
     async signIn(@Body() signInDto: SignInDto): Promise<AuthResponseDto> {
         return this.authService.signIn(signInDto);
@@ -31,5 +31,11 @@ export class AuthController {
             avatar: user.avatar,
             role: user.role,
         };
+    }
+
+    @Get('logout')
+    @UseGuards(JwtAuthGuard)
+    async logout(@CurrentUser() user) {
+        return this.authService.logout(user.id);
     }
 }

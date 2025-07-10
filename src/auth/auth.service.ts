@@ -104,4 +104,11 @@ export class AuthService {
 
         return user;
     }
+
+    async logout(userId: string) {
+        await this.prisma.user.update({
+            where: { id: userId },
+            data: { isActive: false },
+        });
+    }
 }
