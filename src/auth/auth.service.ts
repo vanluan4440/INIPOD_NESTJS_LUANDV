@@ -68,7 +68,10 @@ export class AuthService {
 
         // Check if user is active
         if (!user.isActive) {
-            throw new UnauthorizedException('Account is deactivated');
+            await this.prisma.user.update({
+                where: { id: user.id },
+                data: { isActive: true },
+            });
         }
 
         // Verify password
@@ -106,7 +109,14 @@ export class AuthService {
     }
 
     async logout(userId: string) {
-        await this.prisma.user.update({
+        return await this.prisma.user.update({
+            select: {
+                id: true,
+                email: true,
+                name: true,
+                avatar: true,
+                role: true,
+            },
             where: { id: userId },
             data: { isActive: false },
         });

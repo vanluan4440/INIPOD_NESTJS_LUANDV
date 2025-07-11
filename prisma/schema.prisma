@@ -25,6 +25,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Relations
+  favoritePokemons UserPokemon[]
+
   @@map("users")
 }
 
@@ -34,3 +37,39 @@ enum Role {
   MODERATOR
 }
 
+model Pokemon {
+  id         String   @id @default(cuid())
+  name       String
+  type1      String
+  type2      String?
+  total      Int
+  hp         Int
+  attack     Int
+  defense    Int
+  spAttack   Int
+  spDefense  Int
+  speed      Int
+  generation Int
+  legendary  Boolean  @default(false)
+  image      String
+  ytbUrl     String
+
+  // Relations
+  favoritedBy UserPokemon[]
+
+  @@map("pokemons")
+}
+
+model UserPokemon {
+  id        String   @id @default(cuid())
+  userId    String
+  pokemonId String
+  createdAt DateTime @default(now())
+
+  // Relations
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pokemon Pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, pokemonId])
+  @@map("user_pokemons")
+}

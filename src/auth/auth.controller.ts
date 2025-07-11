@@ -33,7 +33,7 @@ export class AuthController {
         };
     }
 
-    @Get('logout')
+    @Post('logout')
     @UseGuards(JwtAuthGuard)
     async logout(@CurrentUser() user) {
         return this.authService.logout(user.id);
